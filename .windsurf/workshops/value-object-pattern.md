@@ -303,9 +303,9 @@ npm test -- tests/unit/domain/value-objects/email.test.ts
 >
 > Your answer:
 > ```
-> Issue #1: 
-> Issue #2: 
-> Issue #3: 
+> Issue #1: Le constructeur devrait normaliser et mettre en minuscule
+> Issue #2: Le constructeur devrait trim l'email
+> Issue #3: Le constructeur devrait retourner une erreur si l'email est invalid
 > ```
 
 
@@ -348,20 +348,28 @@ Add tests for the missing cases:
 
 ```typescript
 describe('isValid - Edge Cases', () => {
-  // 🫵 CHECKPOINT 3.b.2: Write 3 test cases for untested conditions
-  // Hint: Think about the 3 conditions that aren't covered
-  
-  it('should return false if ???', () => {
-    // TODO: Test case #1
-  });
 
-  it('should return false if ???', () => {
-    // TODO: Test case #2
-  });
+   it('should return false if input is not a string', () => {
+      // Non-string input
+      // @ts-ignore
+      expect(Email.isValid(false)).toBe(false);
+      // @ts-ignore
+      expect(Email.isValid(123)).toBe(false);
+      // @ts-ignore
+      expect(Email.isValid(null)).toBe(false);
+      // @ts-ignore
+      expect(Email.isValid(undefined)).toBe(false);
+   });
 
-  it('should return false if ???', () => {
-    // TODO: Test case #3
-  });
+   it('should return false if email length exceeds 254 characters', () => {
+      const longEmail = 'a'.repeat(245) + '@example.com'; // 245 + 12 = 257 > 254
+      expect(Email.isValid(longEmail)).toBe(false);
+   });
+
+   it('should return false if email is only spaces', () => {
+      expect(Email.isValid('    ')).toBe(false);
+   });
+
 });
 ```
 
