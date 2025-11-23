@@ -33,9 +33,16 @@ describe('EmailWithoutSpan', () => {
 
     it('should throw error for blocked email', async () => {
       const mockAdapter = new MockAntiSpamAdapter(['blocked@example.com']);
-      await expect(EmailWithoutSpan.create('blocked@example.com', mockAdapter))
-        .rejects.toThrow('Email is blocked by anti-spam service: blocked@example.com');
+
+      await expect(
+          EmailWithoutSpan.create('blocked@example.com', mockAdapter)
+      ).rejects.toThrow(
+          'Email is blocked by anti-spam service: blocked@example.com'
+      );
     });
+
+
+
 
     it('should throw error for invalid email format', async () => {
       const mockAdapter = new MockAntiSpamAdapter();
@@ -57,11 +64,15 @@ describe('EmailWithoutSpan', () => {
       expect(await email.isValid()).toBe(true);
     });
 
-    it('should return false for blocked emails', async () => {
+    it('should throw error for blocked email', async () => {
       const mockAdapter = new MockAntiSpamAdapter(['test@example.com']);
-      const email = await EmailWithoutSpan.create('test@example.com', mockAdapter);
-      expect(await email.isValid()).toBe(false);
+      await expect(
+          EmailWithoutSpan.create('test@example.com', mockAdapter)
+      ).rejects.toThrow(
+          'Email is blocked by anti-spam service: test@example.com'
+      );
     });
+
 
     it('should return false for invalid email format', async () => {
       // This test assumes we can create an EmailWithoutSpan with an invalid format

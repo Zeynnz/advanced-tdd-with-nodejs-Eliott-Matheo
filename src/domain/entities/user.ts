@@ -2,6 +2,7 @@ import { Entity } from '../../shared/types/common.js';
 import { UserId } from '../value-objects/user-id.js';
 import { Email } from '../value-objects/email.js';
 import { UserName } from '../value-objects/user-name.js';
+import { AntiSpamPort } from '../ports/anti-spam.port.js';
 
 export interface UserProps {
   id: UserId;
@@ -15,9 +16,9 @@ export class User implements Entity<UserId> {
   private constructor(private readonly props: UserProps) {}
 
   public static create(
-    email: Email,
-    name: UserName,
-    id?: UserId
+      email: Email,
+      name: UserName,
+      id?: UserId
   ): User {
     const now = new Date();
     return new User({
@@ -27,6 +28,26 @@ export class User implements Entity<UserId> {
       createdAt: now,
       updatedAt: now,
     });
+  }
+
+
+  public static async createWithValidation(
+      emailString: string,
+      nameString: string,
+      antiSpamService: AntiSpamPort,
+      id?: UserId
+  ): Promise<User> {
+    // Create email with anti-spam check (adapter is injected here)
+    const email = await Email.createWithAntiSpamCheck(
+        emailString,
+        antiSpamService
+    );
+
+    // Create name (may throw if invalid)
+    const name = UserName.create(nameString);
+
+    // Create user entity
+    return User.create(email, name, id);
   }
 
   public static reconstitute(props: UserProps): User {

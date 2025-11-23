@@ -41,19 +41,19 @@ describe('Email Anti-Spam Integration', () => {
   });
 
   describe('Anti-Spam Integration Concepts', () => {
-    it('should demonstrate how EmailWithoutSpan would integrate with AntiSpamPort', () => {
+    it('should demonstrate how EmailWithoutSpan would integrate with AntiSpamPort', async () => {
       // This test demonstrates the concepts of how EmailWithoutSpan would integrate
       // with the AntiSpamPort. In a real implementation, these would be actual tests.
       const mockAdapter = new MockAntiSpamAdapter();
       // Concept 1: Constructor injection of AntiSpamPort
-       const email = new EmailWithoutSpan('test@example.com', mockAdapter);
-      
+      const email = await EmailWithoutSpan.create('test@example.com', mockAdapter);
+
       // Concept 2: Static factory method with AntiSpamPort
       // const email = EmailWithoutSpan.create('test@example.com', antiSpamPort);
-      
+
       // Concept 3: Validation method that uses AntiSpamPort
       // const isValid = await email.isValid(antiSpamPort);
-      
+
       // Concept 4: Error handling for blocked emails
       // expect(EmailWithoutSpan.create('blocked@example.com', antiSpamPort))
       //   .rejects.toThrow(/blocked by anti-spam/);

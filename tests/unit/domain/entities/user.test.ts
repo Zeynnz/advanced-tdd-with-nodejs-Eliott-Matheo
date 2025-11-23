@@ -1,7 +1,7 @@
-import { User } from 'domain/entities/user';
-import { UserId } from 'domain/value-objects/user-id';
-import { Email } from 'domain/value-objects/email';
-import { UserName } from 'domain/value-objects/user-name';
+import { User } from '../../../../src/domain/entities/user';
+import { UserId } from '../../../../src/domain/value-objects/user-id';
+import { Email } from '../../../../src/domain/value-objects/email';
+import { UserName } from "../../../../src/domain/value-objects/user-name";
 
 describe('User Entity', () => {
   const validEmail = Email.create('test@example.com');

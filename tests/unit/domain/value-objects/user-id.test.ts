@@ -1,4 +1,4 @@
-import { UserId } from 'domain/value-objects/user-id';
+import { UserId } from '../../../../src/domain/value-objects/user-id';
 
 describe('UserId Value Object', () => {
   describe('constructor', () => {
